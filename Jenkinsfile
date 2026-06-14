@@ -6,7 +6,7 @@ pipeline {
             when { expression { env.JOB_NAME == 'job-a-build' } }
             steps {
                 sh 'mvn clean package'
-                archiveArtifacts artifacts: '**/*.jar', fingerprint: true
+                archiveArtifacts artifacts: '**/*.war', fingerprint: true
             }
         }
 
@@ -15,11 +15,11 @@ pipeline {
     steps {
         copyArtifacts(
             projectName: 'job-a-build',
-            filter: '**/*.jar',
+            filter: '**/*.war',
             fingerprintArtifacts: true
         )
         // Add this line below to force the bridge
-        fingerprint '**/*.jar' 
+        fingerprint '**/*.war' 
     }
 }
     }
