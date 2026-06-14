@@ -14,6 +14,7 @@ pipeline {
         stage('package') {
             steps {
                 sh 'mvn package'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
         stage('Fingerprint') { // This must be INSIDE 'stages'
@@ -27,6 +28,7 @@ pipeline {
         copyArtifacts(
             projectName: 'job-a-build', 
             filter: 'target/*.jar', 
+            selector: lastSuccessfulBuild(), // Explicitly grab the latest successful build
             fingerprintArtifacts: true 
         )
     }
