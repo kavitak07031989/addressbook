@@ -17,8 +17,7 @@ pipeline {
         copyArtifacts(
             projectName: 'job-a-build',
             filter: '**/*.war',
-            // This forces it to grab the latest successful build instead of a hardcoded one
-            selector: lastSuccessfulBuild(), 
+            // Remove the 'selector' line entirely
             fingerprintArtifacts: true
         )
         fingerprint '**/*.war'
