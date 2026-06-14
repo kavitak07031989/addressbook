@@ -22,14 +22,6 @@ pipeline {
                 fingerprint 'target/*.jar'
             }
         }
-       stage('Copy and Link') {
-    steps {
-        copyArtifacts(
-            projectName: 'job-a-build', 
-            filter: '**/*.jar', // Use the wildcard to ensure it matches
-            fingerprintArtifacts: true 
-        )
-    }
-}
+       
     }
 }
