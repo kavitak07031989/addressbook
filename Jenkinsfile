@@ -15,6 +15,11 @@ pipeline {
             steps { 
                 sh 'mvn package'
             }
+            stage('Fingerprint') {
+    steps {
+        fingerprint 'target/*.jar'
+    }
+}
         }
     }
 }
