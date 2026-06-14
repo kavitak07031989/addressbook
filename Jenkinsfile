@@ -10,16 +10,17 @@ pipeline {
             }
         }
 
-        // This stage only runs if the job is named 'job-b-deploy'
         stage('Copy & Link') {
-            when { expression { env.JOB_NAME == 'job-b-deploy' } }
-            steps {
-                copyArtifacts(
-                    projectName: 'job-a-build',
-                    filter: '**/*.jar',
-                    fingerprintArtifacts: true // This creates the fingerprint record!
-                )
-            }
-        }
+    when { expression { env.JOB_NAME == 'job-b-deploy' } }
+    steps {
+        copyArtifacts(
+            projectName: 'job-a-build',
+            filter: '**/*.jar',
+            fingerprintArtifacts: true
+        )
+        // Add this line below to force the bridge
+        fingerprint '**/*.jar' 
+    }
+}
     }
 }
