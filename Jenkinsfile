@@ -22,13 +22,11 @@ pipeline {
                 fingerprint 'target/*.jar'
             }
         }
-        stage('Copy and Link') {
+       stage('Copy and Link') {
     steps {
-        // This stage is ADDED to your deployment pipeline
         copyArtifacts(
             projectName: 'job-a-build', 
-            filter: 'target/*.jar', 
-            selector: lastSuccessfulBuild(), // Explicitly grab the latest successful build
+            filter: '**/*.jar', // Use the wildcard to ensure it matches
             fingerprintArtifacts: true 
         )
     }
