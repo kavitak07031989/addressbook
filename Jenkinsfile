@@ -11,18 +11,18 @@ pipeline {
             }
         }
 
-        // Copy stage for job-b-deploy
-        stage('Copy & Link') {
-            when { expression { env.JOB_NAME == 'job-b-deploy' } }
-            steps {
-                copyArtifacts(
-                    projectName: 'job-a-build',
-                    filter: 'target/*.war', // Target the .war file
-                    fingerprintArtifacts: true
-                )
-                // Explicitly verify the fingerprint to create the link
-                fingerprint 'target/*.war'
-            }
-        }
+       stage('Copy & Link') {
+    when { expression { env.JOB_NAME == 'job-b-deploy' } }
+    steps {
+        copyArtifacts(
+            projectName: 'job-a-build',
+            filter: '**/*.war',
+            // This forces it to grab the latest successful build instead of a hardcoded one
+            selector: lastSuccessfulBuild(), 
+            fingerprintArtifacts: true
+        )
+        fingerprint '**/*.war'
+    }
+}
     }
 }
