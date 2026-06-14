@@ -21,5 +21,15 @@ pipeline {
                 fingerprint 'target/*.jar'
             }
         }
+        stage('Copy and Link') {
+    steps {
+        // This stage is ADDED to your deployment pipeline
+        copyArtifacts(
+            projectName: 'job-a-build', 
+            filter: 'target/*.jar', 
+            fingerprintArtifacts: true 
+        )
+    }
+}
     }
 }
