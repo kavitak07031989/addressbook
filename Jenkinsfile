@@ -1,27 +1,26 @@
 pipeline {
     agent any
     stages {
-        // Build stage for job-a-build
         stage('Build & Archive') {
             when { expression { env.JOB_NAME == 'job-a-build' } }
             steps {
                 sh 'mvn clean package'
-                // Archive the .war file produced by Maven
-                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+                // Use a direct path so Jenkins doesn't lose the file
+                archiveArtifacts artifacts: 'target/addressbook.war', fingerprint: true
             }
         }
-
-       stage('Copy & Link') {
-    when { expression { env.JOB_NAME == 'job-b-deploy' } }
-    steps {
-        copyArtifacts(
-            projectName: 'job-a-build',
-            filter: '**/*.war',
-            // Remove the 'selector' line entirely
-            fingerprintArtifacts: true
-        )
-        fingerprint '**/*.war'
-    }
-}
+        stage('Copy & Link') {
+            when { expression { env.JOB_NAME == 'job-b-deploy' } }
+            steps {
+                // Ensure we copy from the specific target folder
+                copyArtifacts(
+                    projectName: 'job-a-build',
+                    filter: 'target/addressbook.war',
+                    fingerprintArtifacts: true
+                )
+                // Register the file specifically
+                fingerprint 'target/addressbook.war'
+            }
+        }
     }
 }
