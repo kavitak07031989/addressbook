@@ -27,6 +27,7 @@ pipeline {
         copyArtifacts(
             projectName: 'job-a-build', 
             filter: '**/*.jar', // Use the wildcard to ensure it matches
+            selector: lastSuccessfulBuild(),
             fingerprintArtifacts: true 
         )
     }
