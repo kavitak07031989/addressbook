@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build & Archive') {
+        stage('Build & Archive')A {
             when { expression { env.JOB_NAME == 'job-a-build' } }
             steps {
                 sh 'mvn clean package'
