@@ -14,7 +14,7 @@ pipeline {
         stage('package') {
             steps {
                 sh 'mvn package'
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: '**/*.jar', fingerprint: true
             }
         }
         stage('Fingerprint') { // This must be INSIDE 'stages'
