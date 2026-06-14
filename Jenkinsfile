@@ -2,24 +2,24 @@ pipeline {
     agent any
     stages {
         stage('Compile') {
-            steps { 
+            steps {
                 sh 'mvn compile'
             }
         }
         stage('test') {
-            steps { 
+            steps {
                 sh 'mvn test'
             }
         }
         stage('package') {
-            steps { 
+            steps {
                 sh 'mvn package'
             }
-            stage('Fingerprint') {
-    steps {
-        fingerprint 'target/*.jar'
-    }
-}
+        }
+        stage('Fingerprint') { // This must be INSIDE 'stages'
+            steps {
+                fingerprint 'target/*.jar'
+            }
         }
     }
 }
